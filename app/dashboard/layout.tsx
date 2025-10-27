@@ -51,7 +51,8 @@ export default function DashboardLayout({
               </Breadcrumb>
             </div>
           </header>
-          {children}
+   
+            {children}
         </SidebarInset>
       </SidebarProvider>
     </main>
