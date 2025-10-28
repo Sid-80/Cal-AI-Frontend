@@ -2,9 +2,16 @@
 
 import { startOfWeek, addDays, format } from "date-fns";
 import { CalendarEvent } from "./calender-event";
+import { Dispatch, SetStateAction } from "react";
 
-export function CalendarGrid() {
-  const start = startOfWeek(new Date(), { weekStartsOn: 0 });
+type Props = {
+  selectedDate: Date | undefined;
+  setSelectedDate: Dispatch<SetStateAction<Date | undefined>>;
+};
+
+
+export function CalendarGrid({selectedDate, setSelectedDate}:Props) {
+  const start = startOfWeek(selectedDate!, { weekStartsOn: 0 });
   const days = Array.from({ length: 7 }, (_, i) => addDays(start, i));
 
   return (

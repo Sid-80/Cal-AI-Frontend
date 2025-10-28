@@ -1,13 +1,32 @@
-
 import { Button } from "@/components/ui/button";
-import { MiniMonthView } from "./min-month-view";
+import { Calendar } from "../ui/calendar";
+import { Dispatch, SetStateAction } from "react";
 
-export function CalendarSidebar() {
+type Props = {
+  selectedDate: Date | undefined;
+  setSelectedDate: Dispatch<SetStateAction<Date | undefined>>;
+};
+
+export function CalendarSidebar({ selectedDate, setSelectedDate }: Props) {
   return (
     <aside className="w-72 border-r bg-muted/20 p-4 flex flex-col">
-      <h2 className="text-lg font-semibold mb-4">Calendar</h2>
+      <div className="flex items-center justify-between  mb-4">
+        <h2 className="flex items-center justify-between text-lg font-semibold">
+          Calendar
+        </h2>
 
-      <MiniMonthView />
+      </div>
+
+      <Calendar
+        mode="single"
+        selected={selectedDate}
+        onSelect={setSelectedDate}
+        disabled={{
+          before: new Date(Date.now()),
+        }}
+        className="rounded-lg border "
+        buttonVariant="ghost"
+      />
 
       <div className="mt-6">
         <h3 className="text-sm font-semibold mb-2 text-muted-foreground">
