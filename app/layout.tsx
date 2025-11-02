@@ -4,6 +4,7 @@ import "./globals.css";
 import { NavbarDemo } from "@/components/shared/navbar";
 import { NextThemeProvider } from "@/providers/theme";
 import ReduxProvider from "@/providers/redux";
+import { Toaster } from "@/components/ui/sonner";
 
 const garamount = EB_Garamond({
   subsets: ["latin"],
@@ -25,6 +26,8 @@ export default function RootLayout({
         <ReduxProvider>
           <NextThemeProvider>
             {children}
+
+            <Toaster />
           </NextThemeProvider>
         </ReduxProvider>
       </body>

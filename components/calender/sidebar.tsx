@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Calendar } from "../ui/calendar";
 import { Dispatch, SetStateAction } from "react";
+import { CirclePlusIcon } from "lucide-react";
+import AddEventTypeDialog from "./add-event-type-dialog";
 
 type Props = {
   selectedDate: Date | undefined;
@@ -14,7 +16,6 @@ export function CalendarSidebar({ selectedDate, setSelectedDate }: Props) {
         <h2 className="flex items-center justify-between text-lg font-semibold">
           Calendar
         </h2>
-
       </div>
 
       <Calendar
@@ -29,9 +30,13 @@ export function CalendarSidebar({ selectedDate, setSelectedDate }: Props) {
       />
 
       <div className="mt-6">
-        <h3 className="text-sm font-semibold mb-2 text-muted-foreground">
-          My Calendars
-        </h3>
+        <div className="flex items-center justify-between ">
+          <h3 className="text-sm font-semibold mb-2 text-muted-foreground">
+            My Event Types
+          </h3>
+
+          <AddEventTypeDialog />
+        </div>
         <ul className="space-y-2">
           <li className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-blue-600" />
