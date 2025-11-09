@@ -37,8 +37,11 @@ export default function CalendarPage() {
 
       <div className="flex flex-col flex-1 overflow-y-auto">
         <CalendarHeader
+          EventTypeLoading={EventTypeLoading}
+          EventTypes={EventTypes}
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
+          setIsReloaded={setIsReloaded}
         />
         <CalendarGrid
           selectedDate={selectedDate}

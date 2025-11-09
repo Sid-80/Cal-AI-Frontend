@@ -4,13 +4,18 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { format, addWeeks, subWeeks, startOfWeek } from "date-fns";
+import AddBookingDialog from "./add-bookings-dialog";
+import { EventType } from "@/types/types";
 
 type Props = {
   selectedDate: Date | undefined;
   setSelectedDate: Dispatch<SetStateAction<Date | undefined>>;
+  setIsReloaded: Dispatch<SetStateAction<boolean>>;
+  EventTypeLoading: boolean;
+    EventTypes: null | EventType[];
 };
 
-export function CalendarHeader({ selectedDate, setSelectedDate }: Props) {
+export function CalendarHeader({ selectedDate, setSelectedDate, setIsReloaded, EventTypes, EventTypeLoading }: Props) {
   const today = new Date();
   const nextWeek = () => setSelectedDate(addWeeks(selectedDate!, 1));
 
@@ -52,9 +57,7 @@ export function CalendarHeader({ selectedDate, setSelectedDate }: Props) {
         )}
       </div>
 
-      <Button className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700">
-        <Plus className="h-4 w-4" /> Create
-      </Button>
+      <AddBookingDialog EventTypeLoading={EventTypeLoading} EventTypes={EventTypes} setIsReloaded={setIsReloaded} />
     </div>
   );
 }
