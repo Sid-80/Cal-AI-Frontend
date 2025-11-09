@@ -36,6 +36,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { createAuthenticatedAxiosInstance } from "@/lib/protected-axios";
 import { toast } from "sonner";
+import { Dispatch, SetStateAction } from "react";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -44,9 +45,14 @@ const formSchema = z.object({
   color: z.enum(["Blue", "Yellow", "Red", "Green"], "Please select a color"),
 });
 
+type Props = {
+  setIsReloaded: Dispatch<SetStateAction<boolean>>;
+};
+
+
 type FormValues = z.infer<typeof formSchema>;
 
-export default function AddEventTypeDialog() {
+export default function AddEventTypeDialog({ setIsReloaded }:Props) {
   const token = useSelector((state: RootState) => state.auth.token);
   const axiosInstance = createAuthenticatedAxiosInstance({}, token);
 
@@ -61,8 +67,6 @@ export default function AddEventTypeDialog() {
   });
 
   async function onSubmit(values: FormValues) {
-    console.log("✅ Submitted values:", values);
-
     try {
       const res = await axiosInstance.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/event-types`,
@@ -74,6 +78,8 @@ export default function AddEventTypeDialog() {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsReloaded(true);
     }
   }
 

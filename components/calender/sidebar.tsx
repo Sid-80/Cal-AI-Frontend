@@ -3,13 +3,35 @@ import { Calendar } from "../ui/calendar";
 import { Dispatch, SetStateAction } from "react";
 import { CirclePlusIcon } from "lucide-react";
 import AddEventTypeDialog from "./add-event-type-dialog";
+import useGetEvents from "@/hooks/use-get-events";
+import { Spinner } from "../ui/spinner";
+import { EventType } from "@/types/types";
 
 type Props = {
   selectedDate: Date | undefined;
   setSelectedDate: Dispatch<SetStateAction<Date | undefined>>;
+  setIsReloaded: Dispatch<SetStateAction<boolean>>;
+  token: string;
+  EventTypeLoading: boolean;
+  EventTypes: null | EventType[];
 };
 
-export function CalendarSidebar({ selectedDate, setSelectedDate }: Props) {
+export function CalendarSidebar({
+  selectedDate,
+  setSelectedDate,
+  token,
+  setIsReloaded,
+  EventTypeLoading,
+  EventTypes,
+}: Props) {
+  const colourMap: Record<string, string> = {
+    yellow: "bg-yellow-600",
+    red: "bg-red-600",
+    blue: "bg-blue-600",
+    green: "bg-green-600",
+    purple: "bg-purple-600",
+  };
+
   return (
     <aside className="w-72 border-r bg-muted/20 p-4 flex flex-col">
       <div className="flex items-center justify-between  mb-4">
@@ -35,18 +57,25 @@ export function CalendarSidebar({ selectedDate, setSelectedDate }: Props) {
             My Event Types
           </h3>
 
-          <AddEventTypeDialog />
+          <AddEventTypeDialog setIsReloaded={setIsReloaded} />
         </div>
-        <ul className="space-y-2">
-          <li className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-blue-600" />
-            Work
-          </li>
-          <li className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-green-500" />
-            Personal
-          </li>
-        </ul>
+
+        <div>
+          {!EventTypeLoading && EventTypes ? (
+            EventTypes.map((EventType) => (
+              <div key={EventType.id} className="flex items-center gap-2">
+                <div
+                  className={`w-3 h-3 rounded-full ${
+                    colourMap[EventType.color.toLowerCase()]
+                  }`}
+                />
+                <p className=" capitalize">{EventType.title}</p>
+              </div>
+            ))
+          ) : (
+            <Spinner />
+          )}
+        </div>
       </div>
 
       <div className="mt-auto pt-4 border-t">
